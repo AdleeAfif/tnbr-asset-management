@@ -1,6 +1,6 @@
-const { User } = require("../models/user.model");
+const { User } = require("../models");
 
-const createNewUser = (body) => {
+const createUser = (body) => {
   return User.create({ ...body });
 };
 
@@ -8,4 +8,4 @@ const findUserByUsername = async (username) => {
   return await User.findOne({ where: { username } });
 };
 
-module.exports = { createNewUser, findUserByUsername };
+module.exports = { createUser, findUserByUsername };

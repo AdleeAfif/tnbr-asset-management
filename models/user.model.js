@@ -1,8 +1,6 @@
 const Sequelize = require("sequelize");
 const bcryptjs = require("bcryptjs");
 
-const { db } = require("../db");
-
 const userModel = (db) => {
   return db.define(
     "User",
@@ -37,6 +35,4 @@ const userModel = (db) => {
   );
 };
 
-const User = userModel(db);
-
-module.exports = { User };
+module.exports = { userModel };

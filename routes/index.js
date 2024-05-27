@@ -1,16 +1,26 @@
 const { Router } = require("express");
-const { registerUser } = require("../controllers/user.controller");
+const { registerUser, loginUser } = require("../controllers/user.controller");
+const { authenticateToken } = require("../middlewares/authentication");
+const { displayAssets } = require("../controllers/asset.controller");
 
-const route = Router();
+const router = Router();
 
-route.get("/", (req, res) => {
-  res.json("Hello");
+router.route("/").get(authenticateToken, displayAssets);
+
+router
+  .route("/login")
+  .get((req, res) => res.render("login"))
+  .post(loginUser, (req, res) => res.redirect("/"));
+
+router
+  .route("/register")
+  .get((req, res) => res.render("register"))
+  .post(registerUser, (req, res) => res.redirect("/login"));
+
+router.route("/logout").get(authenticateToken, (req, res) => {
+  res.clearCookie("token");
+  console.log("User logged out successfully");
+  return res.redirect("/login");
 });
 
-route.get("/login", (req, res) => {
-  res.render("login");
-});
-
-route.post("/register", registerUser);
-
-module.exports = { route };
+module.exports = { router };

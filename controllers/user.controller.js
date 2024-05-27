@@ -34,4 +34,48 @@ const registerUser = expressAsyncHandler(async (req, res, next) => {
   next();
 });
 
-module.exports = { registerUser };
+const loginUser = expressAsyncHandler(async (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!(username && password)) {
+    console.log("Required fields is/are missing");
+    return res.redirect("/login");
+  }
+
+  const user = await findUserByUsername(username);
+
+  if (!user) {
+    console.log(`User ${username} not found`);
+    res.redirect("/login");
+  }
+
+  const isMatch = await bcryptjs.compare(password, user.password);
+  if (!isMatch) {
+    console.log(`User entered invalid password`);
+    return res.redirect("/login");
+  }
+
+  const id = user.id;
+  const payload = {
+    id,
+    username,
+  };
+
+  const options = {
+    expiresIn: "1h", // Token expiration time (optional)
+  };
+
+  const token = jwt.sign(payload, process.env.SECRET_TOKEN, options);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 3600000,
+  });
+
+  console.log(`User ` + username + ` logged in successfully`);
+
+  next();
+});
+
+module.exports = { registerUser, loginUser };
