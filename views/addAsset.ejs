@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Asset</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f0f0f;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <header class="bg-gray-800 py-4">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">Asset Management</a>
+            <div>
+                <a href="/logout" class="text-white hover:text-gray-300">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-bold">Add New Asset</h1>
+            <a href="/" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline inline-flex items-center">
+                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+                Back to List
+            </a>
+        </div>
+        <form action="/add" method="POST" class="bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-gray-300 font-bold mb-2" for="name">
+                        Asset Name
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="Enter asset name" required>
+                </div>
+                <div>
+                    <label class="block text-gray-300 font-bold mb-2" for="type">
+                        Asset Type
+                    </label>
+                    <select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="type" name="type" required>
+                        <option value="">Select type</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="ict-equipment">ICT Equipment</option>
+                        <option value="laboratory-equipment">Laboratory Equipment</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-300 font-bold mb-2" for="serialNumber">
+                        Serial Number
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="serialNumber" name="serialNumber" type="text" placeholder="Enter serial number" required>
+                </div>
+                <div>
+                    <label class="block text-gray-300 font-bold mb-2" for="brandModel">
+                        Brand/Model
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="brandModel" name="brandModel" type="text" placeholder="Enter brand/model" required>
+                </div>
+                <div>
+                    <label class="block text-gray-300 font-bold mb-2" for="quantity">
+                        Quantity
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="quantity" name="quantity" type="number" placeholder="Enter quantity" required>
+                </div>
+                <div>
+                    <label class="block text-gray-300 font-bold mb-2" for="purchaseDate">
+                        Purchase Date
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="purchaseDate" name="purchaseDate" type="date" required>
+                </div>
+                <div>
+                    <label class="block text-gray-300 font-bold mb-2" for="status">
+                        Asset Status
+                    </label>
+                    <select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="status" name="status" required>
+                        <option value="">Select status</option>
+                        <option value="new">New</option>
+                        <option value="in-use">In Use</option>
+                        <option value="under-repair">Under Repair</option>
+                        <option value="decommissioned">Decommissioned</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-300 font-bold mb-2" for="deliveryDate">
+                        Delivery Date
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="deliveryDate" name="deliveryDate" type="date" required>
+                </div>
+            </div>
+            <div class="mt-8 flex justify-end">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline inline-flex items-center" type="submit">
+                    <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    Add Asset
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <footer class="bg-gray-800 py-4 mt-auto">
+        <div class="container mx-auto px-4 text-center text-gray-400">
+            &copy; <%= new Date().getFullYear() %> Asset Management
+        </div>
+    </footer>
+</body>
+</html>
