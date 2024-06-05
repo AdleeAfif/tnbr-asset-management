@@ -46,7 +46,7 @@ const loginUser = expressAsyncHandler(async (req, res, next) => {
 
   if (!user) {
     console.log(`User ${username} not found`);
-    res.redirect("/login");
+    return res.redirect("/login");
   }
 
   const isMatch = await bcryptjs.compare(password, user.password);
@@ -78,4 +78,13 @@ const loginUser = expressAsyncHandler(async (req, res, next) => {
   next();
 });
 
-module.exports = { registerUser, loginUser };
+const logOutUser = expressAsyncHandler(async (req, res) => {
+  await deleteSessionById(req.user.Session.id);
+  req.logout((err) => {
+    if (err) throw new Error("User unable to log out!");
+  });
+
+  return res.redirect("/login");
+});
+
+module.exports = { registerUser, loginUser, logOutUser };
