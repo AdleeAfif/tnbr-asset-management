@@ -5,12 +5,14 @@ const {
   createAsset,
   findAssetById,
   deleteAsset,
+  updateAsset,
 } = require("../helpers/asset.helper");
 
 const displayAssets = expressAsyncHandler(async (req, res) => {
   const assets = await getAssets();
-  console.log("Total number of assets: " + assets.length);
-  res.render("homepage", { assets });
+  const successMessage = req.flash("success");
+  const errorMessage = req.flash("error");
+  res.render("homepage", { assets, successMessage, errorMessage });
 });
 
 const addAsset = expressAsyncHandler(async (req, res) => {
@@ -38,7 +40,10 @@ const addAsset = expressAsyncHandler(async (req, res) => {
     )
   ) {
     console.log("Required fields is/are missing");
-    return res.redirect("/add-asset");
+
+    const errorMessage = "Required fields is/are missing";
+
+    return res.status(400).render("addAsset", { errorMessage });
   }
 
   const created = await createAsset({
@@ -74,6 +79,44 @@ const displayAsset = expressAsyncHandler(async (req, res) => {
   res.render("editAsset", { found });
 });
 
+const editAsset = expressAsyncHandler(async (req, res) => {
+  const {
+    name,
+    type,
+    serialNumber,
+    brandModel,
+    quantity,
+    purchaseDate,
+    status,
+    deliveryDate,
+  } = req.body;
+
+  const updateData = {
+    name,
+    type,
+    serialNumber,
+    brandModel,
+    quantity,
+    purchaseDate,
+    status,
+    deliveryDate,
+    updatedAt: new Date(),
+  };
+
+  const id = req.params.id;
+
+  const updated = await updateAsset(id, updateData);
+
+  if (!updated) {
+    console.log("Failed to update asset");
+    return res.redirect("/");
+  }
+
+  console.log("Number updated asset: " + updated);
+
+  res.json(updated.dataValues);
+});
+
 const removeAsset = expressAsyncHandler(async (req, res) => {
   const id = req.params.id;
 
@@ -93,7 +136,12 @@ const removeAsset = expressAsyncHandler(async (req, res) => {
 
   console.log(`Asset ${found.dataValues.name} has been deleted successfully`);
 
+  req.flash(
+    "success",
+    `Asset ${found.dataValues.name} has been deleted successfully`
+  );
+
   res.redirect("/");
 });
 
-module.exports = { displayAssets, addAsset, removeAsset };
+module.exports = { displayAssets, addAsset, removeAsset, editAsset };

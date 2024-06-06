@@ -16,4 +16,14 @@ const deleteAsset = async (id) => {
   return await Asset.destroy({ where: { id } });
 };
 
-module.exports = { createAsset, getAssets, findAssetById, deleteAsset };
+const updateAsset = async (id, body) => {
+  return await Asset.update(body, { where: { id } });
+};
+
+module.exports = {
+  createAsset,
+  getAssets,
+  findAssetById,
+  deleteAsset,
+  updateAsset,
+};
