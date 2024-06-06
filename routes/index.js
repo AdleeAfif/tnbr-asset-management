@@ -9,6 +9,7 @@ const {
   displayAssets,
   addAsset,
   removeAsset,
+  editAsset,
 } = require("../controllers/asset.controller");
 
 const router = Router();
@@ -21,6 +22,8 @@ router
   .post(authenticateToken, addAsset);
 
 router.post("/:id/delete", authenticateToken, removeAsset);
+
+router.post("/:id/edit", authenticateToken, editAsset);
 
 router
   .route("/login")

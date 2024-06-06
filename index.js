@@ -2,6 +2,8 @@ const express = require("express");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 const { router } = require("./routes");
 const { createDatabaseIfNotExists } = require("./db");
@@ -14,6 +16,16 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(
+  session({
+    secret: "your_secret_key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(flash());
 
 app.use(express.urlencoded({ extended: true }));
 app.use("/", router);
